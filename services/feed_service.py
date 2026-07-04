@@ -49,7 +49,7 @@ def get_friends_listening_now(user_id: str) -> list[dict]:
     seen_friends = set()
     result = []
     for event in recent_events:
-        if event.user_id not in seen_friends:
+        if event.user_id not in seen_friends and event.listened_at.date() == datetime.now(timezone.utc).date():
             seen_friends.add(event.user_id)
             friend = db.session.get(User, event.user_id)
             song = db.session.get(Song, event.song_id)
